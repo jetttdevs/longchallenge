@@ -1,0 +1,68 @@
+<%- include('partials/header', { title: 'About' }) %>
+
+<div class="hero" style="padding-top:20px;">
+  <img class="logo-big" src="/img/logo.svg" alt="Long Challenge" />
+  <h1>The <span>long game</span> of getting things done.</h1>
+  <p>
+    Long Challenge is a bounty board for real work: anyone can post a challenge \u2014 "make a video
+    about X", "write launch content for Y", "design a Z" \u2014 back it with a reward, and let the
+    community compete to deliver it. Every challenge and every submitted entry is reviewed by hand
+    before it goes live or gets paid, so rewards only ever go to real, approved work.
+  </p>
+</div>
+
+<div class="stat-grid">
+  <div class="card stat"><div class="num"><%= stats.challenges %></div><div class="lbl">Challenges posted</div></div>
+  <div class="card stat"><div class="num"><%= stats.published %></div><div class="lbl">Published</div></div>
+  <div class="card stat"><div class="num"><%= stats.completed %></div><div class="lbl">Completed &amp; paid out</div></div>
+  <div class="card stat"><div class="num"><%= stats.users %></div><div class="lbl">Members</div></div>
+</div>
+
+<div class="section-title"><h2>How it works</h2></div>
+<div class="grid">
+  <div class="card">
+    <h3 style="margin-top:0;">1. Post a challenge</h3>
+    <p class="muted">Pick a category (video, content, design, writing, or anything else), write clear
+      instructions for what a winner needs to do, set a reward in <%= CURRENCY.symbol %>, and an
+      optional deadline.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;">2. We review it</h3>
+    <p class="muted">Your reward plus a 10% platform fee is escrowed immediately. Every new challenge
+      is checked before it's published \u2014 approved challenges go live on the board; rejected ones
+      are fully refunded, with a reason.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;">3. The community submits</h3>
+    <p class="muted">Anyone can submit an entry \u2014 a link to their work plus a short note \u2014 to any
+      published challenge.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;">4. We pick the winner</h3>
+    <p class="muted">Submissions are reviewed the same way. The approved winning entry is paid the full
+      reward instantly; other entries are marked not selected and can try again on future challenges.</p>
+  </div>
+</div>
+
+<div class="section-title"><h2>Currency &amp; roadmap</h2></div>
+<div class="card">
+  <p><strong><%= CURRENCY.symbol %></strong> is what challenges are funded and paid out in today.</p>
+  <p class="muted"><%= CURRENCY.disclaimer %></p>
+  <hr class="sep" />
+  <p><strong>What's next:</strong> Long Challenge is moving to its own token, <strong>$<%= CURRENCY.futureSymbol %></strong>,
+    launching on <a href="https://long.xyz" target="_blank" rel="noopener noreferrer">long.xyz</a>. Once it launches,
+    challenge rewards will be paid out in $<%= CURRENCY.futureSymbol %> directly to winners' own wallets \u2014
+    Long Challenge never holds or has access to your private keys.</p>
+</div>
+
+<div class="section-title"><h2>Trust &amp; safety</h2></div>
+<div class="card">
+  <ul style="margin:0;padding-left:20px;line-height:1.7;color:var(--text-muted);">
+    <li>Sign in with your X account \u2014 we only read your username and avatar to identify you. No posting, no DMs, no wallet access, ever.</li>
+    <li>Every challenge and submission is manually reviewed before it's published or paid.</li>
+    <li>Rejected challenges are always fully refunded.</li>
+    <li>We do not generate or custody wallets for users. Any future on-chain payouts go directly to a wallet address you control.</li>
+  </ul>
+</div>
+
+<%- include('partials/footer') %>

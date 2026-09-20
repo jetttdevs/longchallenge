@@ -1,0 +1,41 @@
+<%- include('partials/header', { title: 'Dashboard' }) %>
+
+<div class="section-title"><h2>My Challenges</h2><a class="btn small" href="/challenges/new">+ New Challenge</a></div>
+<% if (myChallenges.length === 0) { %>
+  <div class="card muted">You haven't created any challenges yet.</div>
+<% } else { %>
+  <table class="card">
+    <tr><th>Title</th><th>Reward</th><th>Status</th><th>Created</th><th></th></tr>
+    <% myChallenges.forEach(function(c){ %>
+      <tr>
+        <td><%= c.title %></td>
+        <td><%= c.reward_tokens %> <%= CURRENCY.symbol %></td>
+        <td><span class="badge <%= c.status %>"><%= c.status.replace('_',' ') %></span></td>
+        <td><%= c.created_at %></td>
+        <td><a href="/challenges/<%= c.id %>">view →</a></td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+
+<div class="section-title"><h2>My Submissions</h2></div>
+<% if (mySubmissions.length === 0) { %>
+  <div class="card muted">You haven't submitted to any challenges yet.</div>
+<% } else { %>
+  <table class="card">
+    <tr><th>Challenge</th><th>Status</th><th>Submitted</th><th></th></tr>
+    <% mySubmissions.forEach(function(s){ %>
+      <tr>
+        <td><%= s.challenge_title %></td>
+        <td>
+          <span class="badge <%= s.status %>"><%= s.status %></span>
+          <% if (s.status === 'rejected' && s.rejection_reason) { %><div class="muted" style="font-size:12px;"><%= s.rejection_reason %></div><% } %>
+        </td>
+        <td><%= s.created_at %></td>
+        <td><a href="/challenges/<%= s.challenge_id %>">view →</a></td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+
+<%- include('partials/footer') %>

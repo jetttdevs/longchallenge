@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= typeof title !== 'undefined' ? title + ' · Long Challenge' : 'Long Challenge' %></title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/logo.svg" alt="Long Challenge logo" />
+      <span class="name">LONG <span>CHALLENGE</span></span>
+    </a>
+    <nav class="mainnav">
+      <a href="/">Challenges</a>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/challenges/new">Create Challenge</a>
+        <a href="/wallet">Wallet</a>
+        <% if (user.is_admin) { %><a href="/admin">Admin</a><% } %>
+        <span class="balance-pill"><%= user.token_balance %> <%= CURRENCY.symbol %></span>
+        <span class="muted" style="font-size:13px;">@<%= user.x_username %></span>
+        <form class="inline" method="post" action="/logout"><button class="btn secondary small" type="submit">Logout</button></form>
+      <% } else { %>
+        <a href="/login" class="btn small">Sign in with X</a>
+      <% } %>
+    </nav>
+  </header>

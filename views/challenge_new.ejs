@@ -1,0 +1,35 @@
+<%- include('partials/header', { title: 'Create a Challenge' }) %>
+<div style="max-width:640px;margin:20px auto;">
+  <div class="card">
+    <h2 style="margin-top:0;">Create a Challenge</h2>
+    <p class="muted" style="margin-top:-8px;">
+      Your reward + a 10% platform fee is escrowed from your balance now. Nothing goes live until
+      the admin reviews and approves it — if it's rejected, you get a full refund.
+    </p>
+    <% if (error) { %><div class="flash error"><%= error %></div><% } %>
+    <form method="post" action="/challenges/new">
+      <label>Title</label>
+      <input type="text" name="title" value="<%= form.title || '' %>" placeholder="e.g. Create a 60s video reviewing our app" required />
+
+      <label>Category</label>
+      <select name="category" required>
+        <option value="">Select a category…</option>
+        <% CATEGORIES.forEach(function(c){ %>
+          <option value="<%= c.id %>" <%= form.category === c.id ? 'selected' : '' %>><%= c.label %></option>
+        <% }) %>
+      </select>
+
+      <label>Instructions — what does the winner need to do?</label>
+      <textarea name="description" placeholder="Be specific: format, length, tone, what to include, where to post, deadline expectations…" required><%= form.description || '' %></textarea>
+
+      <label>Reward (<%= CURRENCY.symbol %>)</label>
+      <input type="number" name="reward" min="1" step="1" value="<%= form.reward || '' %>" required />
+
+      <label>Deadline (optional)</label>
+      <input type="date" name="deadline" value="<%= form.deadline || '' %>" />
+
+      <button class="btn" style="margin-top:24px;width:100%;" type="submit">Submit for Review</button>
+    </form>
+  </div>
+</div>
+<%- include('partials/footer') %>

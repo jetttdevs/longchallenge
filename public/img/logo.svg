@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#123a24"/>
+      <stop offset="100%" stop-color="#06170c"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5d34c"/>
+      <stop offset="100%" stop-color="#d9a520"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="96" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <!-- ascending path / long road -->
+  <path d="M45 140 L85 100 L70 85 L110 45" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M110 45 L150 55" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- flag -->
+  <circle cx="150" cy="55" r="9" fill="url(#gold)"/>
+  <!-- chevrons suggesting steps of a long challenge -->
+  <path d="M50 155 L62 143" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+  <path d="M60 160 L78 142" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" opacity="0.35"/>
+</svg>

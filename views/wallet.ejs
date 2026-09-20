@@ -1,0 +1,31 @@
+<%- include('partials/header', { title: 'Wallet' }) %>
+
+<div class="card" style="text-align:center;padding:30px;">
+  <div class="muted">Your balance</div>
+  <div style="font-size:40px;font-weight:800;color:var(--gold);"><%= walletUser.token_balance %> <%= CURRENCY.symbol %></div>
+  <p class="muted" style="max-width:480px;margin:12px auto 0;">
+    <%= CURRENCY.disclaimer %>
+  </p>
+</div>
+
+<div class="section-title"><h2>Transaction history</h2></div>
+<% if (txs.length === 0) { %>
+  <div class="card muted">No transactions yet.</div>
+<% } else { %>
+<table class="card">
+  <tr><th>Date</th><th>Type</th><th>Amount</th><th>Balance after</th><th>Note</th></tr>
+  <% txs.forEach(function(t){ %>
+    <tr>
+      <td><%= t.created_at %></td>
+      <td><%= t.type.replace('_',' ') %></td>
+      <td style="color:<%= t.amount >= 0 ? 'var(--ok)' : 'var(--danger)' %>;font-weight:700;">
+        <%= t.amount >= 0 ? '+' : '' %><%= t.amount %>
+      </td>
+      <td><%= t.balance_after %></td>
+      <td class="muted"><%= t.note || '—' %></td>
+    </tr>
+  <% }) %>
+</table>
+<% } %>
+
+<%- include('partials/footer') %>

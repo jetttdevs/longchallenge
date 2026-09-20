@@ -1,0 +1,17 @@
+{
+  "name": "long-challenge",
+  "version": "1.0.0",
+  "description": "Long Challenge - create challenges, submit entries, pay/earn with Long Challenge Tokens (LCT)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,64 @@
+<%- include('partials/header', { title: challenge.title }) %>
+
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+    <div>
+      <span class="cat"><%= challenge.category %></span>
+      <h2 style="margin:10px 0 4px;"><%= challenge.title %></h2>
+      <p class="muted" style="margin:0;">by <%= challenge.creator_name %> &middot; created <%= challenge.created_at %></p>
+    </div>
+    <div style="text-align:right;">
+      <div class="reward" style="font-size:22px;"><%= challenge.reward_tokens %> <%= CURRENCY.symbol %></div>
+      <span class="badge <%= challenge.status %>"><%= challenge.status.replace('_',' ') %></span>
+    </div>
+  </div>
+  <hr class="sep" />
+  <p style="white-space:pre-wrap;line-height:1.6;"><%= challenge.description %></p>
+  <p class="muted">
+    <%= challenge.deadline ? ('Deadline: ' + challenge.deadline) : 'No deadline set' %>
+    &middot; <%= submissionCount %> submission<%= submissionCount === 1 ? '' : 's' %>
+  </p>
+  <% if (challenge.status === 'rejected' && challenge.rejection_reason) { %>
+    <div class="flash error">Rejected: <%= challenge.rejection_reason %></div>
+  <% } %>
+</div>
+
+<% if (error) { %><div class="flash error"><%= error %></div><% } %>
+
+<% if (user && challenge.status === 'published' && challenge.creator_id !== user.id) { %>
+  <div class="card">
+    <h3 style="margin-top:0;">Submit your entry</h3>
+    <form method="post" action="/challenges/<%= challenge.id %>/submit">
+      <label>Link to your work</label>
+      <input type="url" name="content_url" placeholder="https://…" required />
+      <label>Note (optional)</label>
+      <textarea name="note" placeholder="Anything the reviewer should know"></textarea>
+      <button class="btn" style="margin-top:16px;" type="submit">Submit entry</button>
+    </form>
+  </div>
+<% } else if (!user) { %>
+  <div class="card muted"><a href="/login">Log in</a> to submit an entry to this challenge.</div>
+<% } %>
+
+<div class="section-title"><h2><%= isOwnerOrAdmin ? 'All submissions' : 'Your submissions' %></h2></div>
+<% if (submissions.length === 0) { %>
+  <div class="card muted">No submissions yet.</div>
+<% } else { %>
+  <table class="card">
+    <tr><th>User</th><th>Link</th><th>Note</th><th>Status</th><th>Submitted</th></tr>
+    <% submissions.forEach(function(s){ %>
+      <tr>
+        <td><%= s.username %></td>
+        <td><a href="<%= s.content_url %>" target="_blank" rel="noopener noreferrer">view</a></td>
+        <td><%= s.note || '—' %></td>
+        <td>
+          <span class="badge <%= s.status %>"><%= s.status %></span>
+          <% if (s.status === 'rejected' && s.rejection_reason) { %><div class="muted" style="font-size:12px;"><%= s.rejection_reason %></div><% } %>
+        </td>
+        <td><%= s.created_at %></td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+
+<%- include('partials/footer') %>

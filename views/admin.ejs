@@ -1,0 +1,87 @@
+<%- include('partials/header', { title: 'Admin' }) %>
+
+<div class="stat-grid">
+  <div class="card stat"><div class="num"><%= stats.users %></div><div class="lbl">Users</div></div>
+  <div class="card stat"><div class="num"><%= stats.challenges %></div><div class="lbl">Total Challenges</div></div>
+  <div class="card stat"><div class="num"><%= stats.published %></div><div class="lbl">Published</div></div>
+  <div class="card stat"><div class="num"><%= stats.completed %></div><div class="lbl">Completed</div></div>
+  <div class="card stat"><div class="num"><%= stats.tokensInCirculation %></div><div class="lbl"><%= CURRENCY.symbol %> in circulation</div></div>
+</div>
+
+<div class="tabs">
+  <a href="/admin?tab=challenges" class="<%= tab === 'challenges' ? 'active' : '' %>">Pending Challenges (<%= pendingChallenges.length %>)</a>
+  <a href="/admin?tab=submissions" class="<%= tab === 'submissions' ? 'active' : '' %>">Pending Submissions (<%= pendingSubmissions.length %>)</a>
+  <a href="/admin?tab=users" class="<%= tab === 'users' ? 'active' : '' %>">Users</a>
+</div>
+
+<% if (tab === 'challenges') { %>
+  <% if (pendingChallenges.length === 0) { %>
+    <div class="card muted">Nothing pending. 🎉</div>
+  <% } %>
+  <% pendingChallenges.forEach(function(c){ %>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div>
+          <span class="cat"><%= c.category %></span>
+          <h3 style="margin:8px 0 2px;"><a href="/challenges/<%= c.id %>"><%= c.title %></a></h3>
+          <p class="muted" style="margin:0;">by <%= c.creator_name %> &middot; reward <%= c.reward_tokens %> <%= CURRENCY.symbol %> + <%= c.fee_tokens %> fee escrowed</p>
+        </div>
+      </div>
+      <p style="white-space:pre-wrap;"><%= c.description %></p>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <form method="post" action="/admin/challenges/<%= c.id %>/approve">
+          <button class="btn small" type="submit">Approve &amp; Publish</button>
+        </form>
+        <form method="post" action="/admin/challenges/<%= c.id %>/reject" class="inline">
+          <input type="text" name="reason" placeholder="Rejection reason" required style="width:260px;" />
+          <button class="btn secondary small danger" type="submit">Reject &amp; Refund</button>
+        </form>
+      </div>
+    </div>
+  <% }) %>
+<% } %>
+
+<% if (tab === 'submissions') { %>
+  <% if (pendingSubmissions.length === 0) { %>
+    <div class="card muted">Nothing pending. 🎉</div>
+  <% } %>
+  <% pendingSubmissions.forEach(function(s){ %>
+    <div class="card">
+      <p style="margin:0 0 6px;"><strong>@<%= s.username %></strong> submitted to <a href="/challenges/<%= s.challenge_id %>"><%= s.challenge_title %></a> <span class="muted">(reward <%= s.reward_tokens %> <%= CURRENCY.symbol %>)</span></p>
+      <p><a href="<%= s.content_url %>" target="_blank" rel="noopener noreferrer"><%= s.content_url %></a></p>
+      <% if (s.note) { %><p class="muted"><%= s.note %></p><% } %>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <form method="post" action="/admin/submissions/<%= s.id %>/approve">
+          <button class="btn small" type="submit">Approve as Winner</button>
+        </form>
+        <form method="post" action="/admin/submissions/<%= s.id %>/reject" class="inline">
+          <input type="text" name="reason" placeholder="Rejection reason" required style="width:260px;" />
+          <button class="btn secondary small danger" type="submit">Reject</button>
+        </form>
+      </div>
+    </div>
+  <% }) %>
+<% } %>
+
+<% if (tab === 'users') { %>
+  <table class="card">
+    <tr><th>X username</th><th>Balance</th><th>Admin</th><th>Joined</th><th>Adjust balance</th></tr>
+    <% users.forEach(function(u){ %>
+      <tr>
+        <td>@<%= u.x_username %></td>
+        <td><%= u.token_balance %> <%= CURRENCY.symbol %></td>
+        <td><%= u.is_admin ? 'yes' : '' %></td>
+        <td><%= u.created_at %></td>
+        <td>
+          <form method="post" action="/admin/users/<%= u.id %>/adjust" class="inline">
+            <input type="number" name="amount" placeholder="+/- amount" style="width:100px;" required />
+            <input type="text" name="note" placeholder="note" style="width:140px;" />
+            <button class="btn small" type="submit">Apply</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+<% } %>
+
+<%- include('partials/footer') %>
